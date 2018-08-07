@@ -9,14 +9,14 @@ const MemoriesSchema = new Schema({
     postStory: {
         type: String
     },
-    _user:{
+    _user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "users"
     },
-    date:{
+    date: {
         type: Date,
         default: Date.now
     }
 });
 
-module.exports = mongoose.model('memories',MemoriesSchema);
+module.exports = mongoose.model('memories', MemoriesSchema);

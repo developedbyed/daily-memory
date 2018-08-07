@@ -1,38 +1,33 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import axios from 'axios';
+import React, { Component, Fragment } from 'react';
+import Navbar from './components/Navbar';
+import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
+import { connect } from 'react-redux';
+import * as actions from './actions/';
+import Dashboard from './components/Dashboard';
+
+const Landing = () => <h1>Landing</h1>
 
 class App extends Component {
-  state = {
-    title: '',
-    story: ''
-  }
-  onChangeHandler = (e)=>{
-    this.setState({[e.target.name]: e.target.value});
-  }
-  submitHandler = (e) => {
-    e.preventDefault();
 
-    axios.post('/memories',{
-      title: this.state.title,
-      story: this.state.story
-    })
-      .then(res=>{
-        console.log(res);
-      });
-  };
+  componentDidMount() {
+    this.props.fetchUser();
+  }
+
   render() {
     return (
       <div className="App">
-      <form onSubmit={this.submitHandler}>
-        <input type="text" name="title" value={this.state.title} onChange={this.onChangeHandler}/>
-        <input type="text" name="story" value={this.state.story} onChange={this.onChangeHandler}/>
-        <button type="submit">Submit</button>
-      </form>
+        <BrowserRouter>
+          <Fragment>
+            <Navbar />
+            <Route exact path="/" component={Landing} />
+            <Route path="/dashboard" component={Dashboard} />
+          </Fragment>
+        </BrowserRouter>
       </div>
+
     );
   }
 }
 
-export default App;
+export default connect(null, actions)(App);
